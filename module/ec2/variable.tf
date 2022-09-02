@@ -41,3 +41,7 @@ variable "sg" {}
 # variable "ip_type" {
 #   default = "ipv4"
 # }
+
+variable "rds-subnet1" {}
+
+variable "rds-subnet2" {}

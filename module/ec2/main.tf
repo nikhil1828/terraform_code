@@ -1,18 +1,113 @@
+resource "aws_iam_role" "s3-role-ec2" {
+  name = "s3_fulle_access"
+
+  # Terraform's "jsonencode" function converts a
+  # Terraform expression result to valid JSON syntax.
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
+      },
+    ]
+  })
+
+  tags = {
+    tag-key = "tag-value"
+  }
+}
+
+resource "aws_iam_policy" "s3-full-acs-policy" {
+  name        = "test_policy"
+  path        = "/"
+  description = "My test policy"
+
+  # Terraform's "jsonencode" function converts a
+  # Terraform expression result to valid JSON syntax.
+  policy = jsonencode(
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:*",
+                "s3-object-lambda:*"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+  )
+}
+
+resource "aws_iam_policy_attachment" "test-attach" {
+  name       = "test-attachment"
+  roles       = [aws_iam_role.s3-role-ec2.name]
+  policy_arn = aws_iam_policy.s3-full-acs-policy.arn
+}
+
+resource "aws_iam_instance_profile" "test_profile" {
+  name = "test_profile"
+  role = aws_iam_role.s3-role-ec2.name
+}
 //INSTANCE LAUNCHING//
+
+
 resource "aws_instance" "web" {
-  count = length(var.pub_snet)
+  # count = length(var.pub_snet)
   ami           = var.ami_id
   instance_type = var.instance_type
   key_name = var.key_name
   security_groups = [var.sg]
-  subnet_id = var.pub_snet[count.index]
-
+  subnet_id = var.pub_snet
+  iam_instance_profile = aws_iam_instance_profile.test_profile.name
+  user_data = <<-EOF
+  #!/bin/bash
+  sudo su -
+  apt update -y
+  apt install nginx mysql-server -y
+  apt install php-fpm php-mysql -y
+  apt install awscli -y
+  cd /var/www/html
+  wget http://wordpress.org/latest.tar.gz
+  gunzip latest.tar.gz
+  tar -xvf latest.tar
+  aws s3 cp s3://mybktm001/default /etc/nginx/sites-enabled
+  aws s3 cp s3://mybktm001/wp-config.php /var/www/html/wordpress
+  EOF
   tags = {
     Name = "${terraform.workspace}_ec2"
   }
 }
 
+resource "aws_db_instance" "database13" {
+  allocated_storage    = 20
+  engine               = "mysql"
+  engine_version       = "8.0"
+  instance_class       = "db.t3.micro"
+  db_name              = "mydb"
+  username             = "admin"
+  password             = "zxcvbnm123"
+  availability_zone = "ap-southeast-1a"
+  db_subnet_group_name = aws_db_subnet_group.mydb-snetgrp.name
+  # parameter_group_name = "default.mysql5.7"
+  skip_final_snapshot  = true
+}
 
+resource "aws_db_subnet_group" "mydb-snetgrp" {
+  name       = "mydb-snet"
+  subnet_ids = [var.rds-subnet1,var.rds-subnet2]
+
+  tags = {
+    Name = "My DB subnet group"
+  }
+}
 # //TARGET GROUP FOR LB//
 # resource "aws_lb_target_group" "web-tg" {
 #   name     = var.tg-name

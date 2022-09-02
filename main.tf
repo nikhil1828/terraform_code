@@ -30,8 +30,13 @@ module "nw" {
       availability_zone = "ap-southeast-1b"
     }
   }
-  
+  nat_reqd = true
+  pub-snet-name = "snet-pb-1"
 }
+
+output "pub-snetid" {
+    value = lookup(module.nw.pub_snetid,"snet-pb-1", null).id
+  }
 
 module "sg" {
   source = "./module/sg"
@@ -48,6 +53,15 @@ module "sg" {
         protocol          = "tcp"
         cidr_blocks       = ["0.0.0.0/0"]
         self = null
+        security_groups = null
+      },
+      {
+        from_port         = 22
+        to_port           = 22
+        protocol          = "tcp"
+        cidr_blocks       = ["0.0.0.0/0"]
+        self = null
+        security_groups = null
       },
       {
         from_port         = 443
@@ -55,9 +69,10 @@ module "sg" {
         protocol          = "tcp"
         cidr_blocks       = ["0.0.0.0/0"]
         self = null
+        security_groups = null
       }
     ]
-  }
+  },
   "lb-sg" = {
     name        = "lb-http/s"
     description = "SG for ELB"
@@ -69,6 +84,8 @@ module "sg" {
         protocol          = "tcp"
         cidr_blocks       = ["0.0.0.0/0"]
         self = null
+        security_groups = null
+
       },
       {
         from_port         = 443
@@ -76,6 +93,7 @@ module "sg" {
         protocol          = "tcp"
         cidr_blocks       = ["0.0.0.0/0"]
         self = null
+        security_groups = null
       },
       {
         from_port         = 22
@@ -83,21 +101,63 @@ module "sg" {
         protocol          = "tcp"
         cidr_blocks       = ["0.0.0.0/0"]
         self = null
+        security_groups = null
       }
     ]
   }
+  # "rds-sg" = {
+  #   name        = "lb-http/s"
+  #   description = "SG for ELB"
+  #   vpc_id      = module.nw.vpc_id
+  #   ingress_rules = [
+  #     {
+  #       from_port         = 3306
+  #       to_port           = 3306
+  #       protocol          = "tcp"
+  #       cidr_blocks       = [module.nw.vpc_id]
+  #       # security_groups   = ["${aws_security_group.allow_tls.id}"]
+  #        security_groups   = [lookup(module.sg.sg_id,"ec2-sg",null)]
+  #       # self = null
+  #     }
+  #   ]
+  # }
 }
+}
+
+module "sg2" {
+  source = "./module/sg"
+  sg_details = {
+  "rds-sg" = {
+    name        = "lb-http/s"
+    description = "SG for ELB"
+    vpc_id      = module.nw.vpc_id
+    ingress_rules = [
+      {
+        from_port         = 3306
+        to_port           = 3306
+        protocol          = "tcp"
+        cidr_blocks       = ["10.0.0.0/20"]
+        # security_groups   = ["${aws_security_group.allow_tls.id}"]
+         security_groups   = [lookup(module.sg.sg_id,"ec2-sg",null)]
+        self = null
+      }
+    ]
+  }
+  }
 }
  
-# module "ec2" {
-#   source = "./module/ec2"
-#   pub_snet = module.nw.pub_snetid
-#   sg = lookup(module.sg.sg_id,"ec2-sg",null)
-#   ami_id = "ami-0706c8237f00ee5cc"
-#   instance_type = "t2.micro"
-#   key_name = "key_singapore"
-#   # tg_vpc = module.nw.vpc_id
-# }
+module "ec2" {
+  source = "./module/ec2"
+  pub_snet = lookup(module.nw.pub_snetid, "snet-pb-1",null).id
+  sg = lookup(module.sg.sg_id,"ec2-sg",null)
+  # ami_id = "ami-0706c8237f00ee5cc"
+  ami_id = "ami-04ff9e9b51c1f62ca"
+  instance_type = "t2.micro"
+  key_name = "key_singapore"
+  # tg_vpc = module.nw.vpc_id
+  rds-subnet1 = lookup(module.nw.pub_snetid, "snet-pb-1" ,null).id
+  rds-subnet2 = lookup(module.nw.pub_snetid, "snet-pb-2" ,null).id
+}
 
 # module "lb" {
 #   source ="./module/lb"
@@ -136,6 +196,41 @@ module "sg" {
 
 # # element(module.nw.pub_snetid,1)
 
-output "pb-snet-ids" {
-  value = module.nw.pub_snetid
+# output "pb-snet-ids" {
+#   value = module.nw.pub_snetid
+# }
+
+module "test" {
+  source = "./test"
 }
+# output "join-test" {
+#   value = module.test.join-fn
+# }
+
+# output "chomp-fn-1" {
+#   value = module.test.chomp-fn
+# }
+
+# output "substr" {
+#  value = module.test.substr-test 
+# }
+
+# output "trimfn" {
+#  value = module.test.split-test 
+# }
+
+# output "chunk-list" {
+#  value = module.test.chunk
+# }
+
+# output "colesce-test" {
+#   value = module.test.coelesce
+# }
+
+# output "contains-test" {
+#   value = module.test.contains
+# }
+
+# output "tolist-test" {
+#   value = module.test.tolist
+# }

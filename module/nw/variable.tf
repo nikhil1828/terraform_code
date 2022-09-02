@@ -37,4 +37,9 @@ variable "pvt_sn_details" {
 #     default = ["10.0.4.22/22"]
   
 # }
- 
+
+variable "pub-snet-name" {}
+
+
+variable "nat_reqd" {}
+

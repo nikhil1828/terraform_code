@@ -17,6 +17,7 @@ resource "aws_security_group" "allow_tls" {
       protocol          = lookup(ingress.value, "protocol", null)
       cidr_blocks       = lookup(ingress.value, "cidr_blocks", null)
       self              = lookup(ingress.value, "self", null)
+      security_groups   = lookup(ingress.value, "security_groups",null)
     }
 
   }

@@ -19,7 +19,6 @@ resource "aws_security_group" "allow_tls" {
       self              = lookup(ingress.value, "self", null)
       security_groups   = lookup(ingress.value, "security_groups",null)
     }
-
   }
 
   egress {

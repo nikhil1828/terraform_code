@@ -6,6 +6,7 @@ provider "aws" {
 data "aws_availability_zones" "available" {
   state = "available"
 }
+
 module "nw" {
   source = "./module/nw"
   pub_sn_details = {
@@ -128,7 +129,7 @@ module "sg2" {
   source = "./module/sg"
   sg_details = {
   "rds-sg" = {
-    name        = "lb-http/s"
+    name        = "lb_http/s"
     description = "SG for ELB"
     vpc_id      = module.nw.vpc_id
     ingress_rules = [
@@ -136,7 +137,7 @@ module "sg2" {
         from_port         = 3306
         to_port           = 3306
         protocol          = "tcp"
-        cidr_blocks       = ["10.0.0.0/20"]
+        cidr_blocks       = ["0.0.0.0/0"]
         # security_groups   = ["${aws_security_group.allow_tls.id}"]
          security_groups   = [lookup(module.sg.sg_id,"ec2-sg",null)]
         self = null
@@ -157,6 +158,11 @@ module "ec2" {
   # tg_vpc = module.nw.vpc_id
   rds-subnet1 = lookup(module.nw.pub_snetid, "snet-pb-1" ,null).id
   rds-subnet2 = lookup(module.nw.pub_snetid, "snet-pb-2" ,null).id
+  username = "admin"
+  password = "zxcvbnm123"
+  dbname = "mydb"
+  rds-sg-id = lookup(module.sg2.sg_id,"rds-sg",null)
+  
 }
 
 # module "lb" {
@@ -166,12 +172,12 @@ module "ec2" {
 #   tg_vpc = module.nw.vpc_id
 #   # total-ec2 = module.ec2.no-of-ec2
 #   tg-name = "ec2-tg-grp"
-#   port = 80
-#   protocol = "HTTP"
-#   target_type = "instance"
+#   # port = 80
+#   # protocol = "HTTP"
+#   # target_type = "instance"
 #   lb_name = "ec2-ealb"
 #   internal = false
-#   lb_type = "application"
+#   # lb_type = "application"
 #   ip_type = "ipv4"
 #   action-type = "forward"
 # }

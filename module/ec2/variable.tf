@@ -45,3 +45,16 @@ variable "sg" {}
 variable "rds-subnet1" {}
 
 variable "rds-subnet2" {}
+
+
+variable "dbname" {}
+
+variable "username" {}
+
+variable "password" {}
+
+variable "ssh_pvt_key" {
+  default = "/home/admin1/singapore.pem"
+}
+
+variable "rds-sg-id" {}

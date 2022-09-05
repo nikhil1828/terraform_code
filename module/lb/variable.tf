@@ -4,11 +4,11 @@
 //TARGET GROUP 
 variable "tg-name" {}
 
-variable "port" {}
+# variable "port" {}
 
-variable "protocol" {}
+# variable "protocol" {}
 
-variable "target_type" {}
+# variable "target_type" {}
 
 variable tg_vpc {}
 
@@ -17,7 +17,7 @@ variable "lb_name" {}
 
 variable "internal" {}
 
-variable "lb_type" {}
+# variable "lb_type" {}
 
 variable "ip_type" {}
 

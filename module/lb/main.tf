@@ -1,9 +1,9 @@
 //TARGET GROUP FOR LB//
 resource "aws_lb_target_group" "web-tg" {
   name     = var.tg-name
-  port     = var.port
-  protocol = var.protocol
-  target_type = var.target_type
+  port     = 80
+  protocol = "HTTP"
+  target_type = "instance"
   vpc_id   = var.tg_vpc
 }
 
@@ -22,7 +22,7 @@ resource "aws_lb_target_group" "web-tg" {
 resource "aws_lb" "web-ealb" {
   name               = var.lb_name
   internal           = var.internal
-  load_balancer_type = var.lb_type
+  load_balancer_type = "application"
   ip_address_type = var.ip_type
   security_groups    = [var.sg]
   subnets            = var.pub_snet

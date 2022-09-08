@@ -10,12 +10,19 @@ resource "aws_lb_target_group" "web-tg" {
 
 # //TARGET GROUP REGISTERING
 # resource "aws_lb_target_group_attachment" "web-tg-attachments" {
-#   count = length(var.pub_snet)
+#  # count = length(var.pub_snet)
 #   target_group_arn = aws_lb_target_group.web-tg.arn
-#   # target_id        = "${element(aws_instance.web[count.index].id)}"
-#   target_id = var.pub_snet[count.index]
-#   port             = var.port
+#   #target_id        = "${element(aws_instance.web[count.index].id)}"
+#   target_id = var.ec2_id
+#   port             = 80
 # }
+
+resource "aws_lb_target_group_attachment" "web-tg-attachments" {
+  for_each = var.ec2_id
+  target_group_arn = aws_lb_target_group.web-tg.arn
+  target_id = each.value
+  port             = 80
+}
 
 
 //LOAD BALANCER//
@@ -25,18 +32,19 @@ resource "aws_lb" "web-ealb" {
   load_balancer_type = "application"
   ip_address_type = var.ip_type
   security_groups    = [var.sg]
-  subnets            = var.pub_snet
-
+  # subnets            = [var.pub_snet,var.pub_snet2]
+  subnets = [for k in var.sub-id: k.snetid]
   tags = {
     Environment = "${terraform.workspace}_LB"
   }
 }
 
+
 //LISTENER OF LB
 resource "aws_lb_listener" "web-ealb-to-web-tg" {
   load_balancer_arn = aws_lb.web-ealb.arn
-  port              = var.port
-  protocol          = var.protocol
+  port              = 80
+  protocol          = "HTTP"
   # ssl_policy        = "ELBSecurityPolicy-2016-08"
   # certificate_arn   = "arn:aws:iam::187416307283:server-certificate/test_cert_rab3wuqwgja25ct3n4jdj2tzu4"
 

@@ -147,40 +147,84 @@ module "sg2" {
   }
 }
  
+# module "ec2" {
+#   source = "./module/ec2"
+#   pub_snet = lookup(module.nw.pub_snetid, "snet-pb-1",null).id
+#   sg = lookup(module.sg.sg_id,"ec2-sg",null)
+#   # ami_id = "ami-0706c8237f00ee5cc"
+#   ami_id = "ami-04ff9e9b51c1f62ca"
+#   instance_type = "t2.micro"
+#   key_name = "key_singapore"
+#   # tg_vpc = module.nw.vpc_id
+#   rds-subnet1 = lookup(module.nw.pub_snetid, "snet-pb-1" ,null).id
+#   rds-subnet2 = lookup(module.nw.pub_snetid, "snet-pb-2" ,null).id
+#   username = "admin"
+#   password = "zxcvbnm123"
+#   dbname = "mydb"
+#   rds-sg-id = lookup(module.sg2.sg_id,"rds-sg",null)
+  
+# }
+
 module "ec2" {
   source = "./module/ec2"
-  pub_snet = lookup(module.nw.pub_snetid, "snet-pb-1",null).id
+  ec2_sub = {
+    ec2-001 = {
+      pub-snet = lookup(module.nw.pub_snetid,"snet-pb-1", null).id
+    },
+    ec2-002 = {
+      pub-snet = lookup(module.nw.pub_snetid,"snet-pb-2", null).id
+    }
+  }
   sg = lookup(module.sg.sg_id,"ec2-sg",null)
-  # ami_id = "ami-0706c8237f00ee5cc"
   ami_id = "ami-04ff9e9b51c1f62ca"
   instance_type = "t2.micro"
   key_name = "key_singapore"
-  # tg_vpc = module.nw.vpc_id
-  rds-subnet1 = lookup(module.nw.pub_snetid, "snet-pb-1" ,null).id
-  rds-subnet2 = lookup(module.nw.pub_snetid, "snet-pb-2" ,null).id
-  username = "admin"
-  password = "zxcvbnm123"
-  dbname = "mydb"
-  rds-sg-id = lookup(module.sg2.sg_id,"rds-sg",null)
   
 }
 
 # module "lb" {
 #   source ="./module/lb"
-#   pub_snet = module.nw.pub_snetid
+#   pub_snet = lookup(module.nw.pub_snetid,"snet-pb-1",null).id
+#   pub_snet2 = lookup(module.nw.pub_snetid,"snet-pb-2",null).id
 #   sg = lookup(module.sg.sg_id,"lb-sg",null)
 #   tg_vpc = module.nw.vpc_id
 #   # total-ec2 = module.ec2.no-of-ec2
 #   tg-name = "ec2-tg-grp"
-#   # port = 80
-#   # protocol = "HTTP"
-#   # target_type = "instance"
+#   ec2_id = module.ec2.no-of-ec2
 #   lb_name = "ec2-ealb"
 #   internal = false
-#   # lb_type = "application"
 #   ip_type = "ipv4"
 #   action-type = "forward"
 # }
+
+module "lb" {
+  source ="./module/lb"
+  sub-id = {
+    lb-sub1 ={
+      snetid = lookup(module.nw.pub_snetid,"snet-pb-1",null).id
+    },
+    lb-sub2 ={
+      snetid = lookup(module.nw.pub_snetid,"snet-pb-2",null).id
+    }
+  }
+  sg = lookup(module.sg.sg_id,"lb-sg",null)
+  tg_vpc = module.nw.vpc_id
+  # total-ec2 = module.ec2.no-of-ec2
+  tg-name = "ec2-tg-grp"
+  # ec2_id = {
+  #   ec2-001 ={
+  #     ec2id = lookup(module.ec2.ec2_id, "ec2-001")
+  #   },
+  #   ec2-002 ={
+  #     ec2id = lookup(module.ec2.ec2_id, "ec2-002")
+  #   }
+  # }
+  ec2_id = module.ec2.ec2_id
+  lb_name = "ec2-ealb"
+  internal = false
+  ip_type = "ipv4"
+  action-type = "forward"
+}
 
 
 # module "asg" {
@@ -240,3 +284,4 @@ module "test" {
 # output "tolist-test" {
 #   value = module.test.tolist
 # }
+

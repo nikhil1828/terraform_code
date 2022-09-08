@@ -6,3 +6,4 @@ output "vpc_id"{
  output "pub_snetid" {
     value = aws_subnet.pub-snet
 }
+ 

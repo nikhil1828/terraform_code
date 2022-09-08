@@ -4,9 +4,6 @@
 //TARGET GROUP 
 variable "tg-name" {}
 
-# variable "port" {}
-
-# variable "protocol" {}
 
 # variable "target_type" {}
 
@@ -17,13 +14,21 @@ variable "lb_name" {}
 
 variable "internal" {}
 
-# variable "lb_type" {}
-
 variable "ip_type" {}
 
 variable "sg" {}
 
-variable "pub_snet" {}
+# variable "pub_snet" {}
+
+# variable "pub_snet2" {}
+
+variable "ec2_id" {
+  type = map
+}
 
 //LISTENER FOR ELB
 variable "action-type" {}
+
+variable "sub-id" {
+  type = map
+}

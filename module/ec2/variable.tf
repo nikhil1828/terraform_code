@@ -4,9 +4,15 @@ variable "instance_type" {}
 
 variable "key_name" {}
 
-variable "pub_snet" {}
+# variable "pub_snet" {}
 
 variable "sg" {}
+
+variable "ec2_sub" {
+  type = map(object({
+    pub-snet = string
+  }))
+}
 
 # //ELASTIC LOAD BALANCER///
 
@@ -42,19 +48,19 @@ variable "sg" {}
 #   default = "ipv4"
 # }
 
-variable "rds-subnet1" {}
+# variable "rds-subnet1" {}
 
-variable "rds-subnet2" {}
+# variable "rds-subnet2" {}
 
 
-variable "dbname" {}
+# variable "dbname" {}
 
-variable "username" {}
+# variable "username" {}
 
-variable "password" {}
+# variable "password" {}
 
 variable "ssh_pvt_key" {
   default = "/home/admin1/singapore.pem"
 }
 
-variable "rds-sg-id" {}
+# variable "rds-sg-id" {}

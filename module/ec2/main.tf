@@ -60,28 +60,29 @@
 
 //INSTANCE LAUNCHING//
 
-data "template_file" "wpconfig"{
-  template = file("files/wp-config.php")
+# data "template_file" "wpconfig"{
+#   template = file("files/wp-config.php")
 
-  vars = {
-    db_host = aws_db_instance.database13.address
-    db_user = var.username
-    db_pass = var.password
-    db_name = var.dbname
-  }
-}
+#   vars = {
+#     db_host = aws_db_instance.database13.address
+#     db_user = var.username
+#     db_pass = var.password
+#     db_name = var.dbname
+#   }
+# }
 
-data "template_file" "nginx" {
-  template = file("files/default")
-}
+# data "template_file" "nginx" {
+#   template = file("files/default")
+# }
 
 resource "aws_instance" "web" {
   # count = length(var.pub_snet)
+  for_each = var.ec2_sub
   ami           = var.ami_id
   instance_type = var.instance_type
   key_name = var.key_name
   security_groups = [var.sg]
-  subnet_id = var.pub_snet
+  subnet_id = each.value["pub-snet"]
   # iam_instance_profile = aws_iam_instance_profile.test_profile.name
   user_data = <<-EOF
   #!/bin/bash
@@ -101,124 +102,77 @@ resource "aws_instance" "web" {
     Name = "${terraform.workspace}_ec2"
   }
 
-  provisioner "file" {
-  content = data.template_file.wpconfig.rendered
-  destination = "/tmp/wp-config.php"
+#   provisioner "file" {
+#   content = data.template_file.wpconfig.rendered
+#   destination = "/tmp/wp-config.php"
 
-  connection {
-    type = "ssh"
-    user = "ubuntu"
-    host = self.public_ip
-    private_key = file(var.ssh_pvt_key)
-  }
-}
-
-provisioner "remote-exec" {
-  inline = [
-    "sleep 250 && sudo cp /tmp/wp-config.php /var/www/html/wordpress/wp-config.php"
-  ]
-  connection {
-    type = "ssh"
-    user = "ubuntu"
-    host = self.public_ip
-    private_key = file(var.ssh_pvt_key)
-  }
-}
-
-provisioner "file" {
-  content = data.template_file.nginx.rendered
-  destination = "/tmp/default"
-
-  connection {
-    type = "ssh"
-    user = "ubuntu"
-    host = self.public_ip
-    private_key = file(var.ssh_pvt_key)
-  }
-}
-
-provisioner "remote-exec" {
-  inline = [
-    "sudo cp /tmp/default /etc/nginx/sites-enabled/default"
-  ]
-  connection {
-    type = "ssh"
-    user = "ubuntu"
-    host = self.public_ip
-    private_key = file(var.ssh_pvt_key)
-  }
-}
-}
-
-
-resource "aws_db_instance" "database13" {
-  allocated_storage    = 20
-  engine               = "mysql"
-  engine_version       = "8.0"
-  instance_class       = "db.t3.micro"
-  db_name              = "mydb"
-  username             = "admin"
-  password             = "zxcvbnm123"
-  availability_zone = "ap-southeast-1a"
-  db_subnet_group_name = aws_db_subnet_group.mydb-snetgrp.name
-  vpc_security_group_ids = [var.rds-sg-id]
-  # parameter_group_name = "default.mysql5.7"
-  skip_final_snapshot  = true
-}
-
-resource "aws_db_subnet_group" "mydb-snetgrp" {
-  name       = "mydb-snet"
-  subnet_ids = [var.rds-subnet1,var.rds-subnet2]
-
-  tags = {
-    Name = "My DB subnet group"
-  }
-}
-
-# //TARGET GROUP FOR LB//
-# resource "aws_lb_target_group" "web-tg" {
-#   name     = var.tg-name
-#   port     = var.port
-#   protocol = var.protocol
-#   target_type = var.target_type
-#   vpc_id   = var.tg_vpc
-# }
-
-
-# //TARGET GROUP REGISTERING
-# resource "aws_lb_target_group_attachment" "web-tg-attachments" {
-#   count = length(aws_instance.web)
-#   target_group_arn = aws_lb_target_group.web-tg.arn
-#   # target_id        = "${element(aws_instance.web[count.index].id)}"
-#   target_id = aws_instance.web[count.index].id
-#   port             = 80
-# }
-
-
-# //LOAD BALANCER//
-# resource "aws_lb" "web-ealb" {
-#   name               = var.lb_name
-#   internal           = var.internal
-#   load_balancer_type = var.lb_type
-#   ip_address_type = var.ip_type
-#   security_groups    = [var.sg]
-#   subnets            = var.pub_snet
-
-#   tags = {
-#     Environment = "${terraform.workspace}_LB"
+#   connection {
+#     type = "ssh"
+#     user = "ubuntu"
+#     host = self.public_ip
+#     private_key = file(var.ssh_pvt_key)
 #   }
 # }
 
-# resource "aws_lb_listener" "web-ealb-to-web-tg" {
-#   load_balancer_arn = aws_lb.web-ealb.arn
-#   port              = var.port
-#   protocol          = var.protocol
-#   # ssl_policy        = "ELBSecurityPolicy-2016-08"
-#   # certificate_arn   = "arn:aws:iam::187416307283:server-certificate/test_cert_rab3wuqwgja25ct3n4jdj2tzu4"
+# provisioner "remote-exec" {
+#   inline = [
+#     "sleep 250 && sudo cp /tmp/wp-config.php /var/www/html/wordpress/wp-config.php"
+#   ]
+#   connection {
+#     type = "ssh"
+#     user = "ubuntu"
+#     host = self.public_ip
+#     private_key = file(var.ssh_pvt_key)
+#   }
+# }
 
-#   default_action {
-#     type             = "forward"
-#     target_group_arn = aws_lb_target_group.web-tg.arn
+# provisioner "file" {
+#   content = data.template_file.nginx.rendered
+#   destination = "/tmp/default"
+
+#   connection {
+#     type = "ssh"
+#     user = "ubuntu"
+#     host = self.public_ip
+#     private_key = file(var.ssh_pvt_key)
+#   }
+# }
+
+# provisioner "remote-exec" {
+#   inline = [
+#     "sudo cp /tmp/default /etc/nginx/sites-enabled/default"
+#   ]
+#   connection {
+#     type = "ssh"
+#     user = "ubuntu"
+#     host = self.public_ip
+#     private_key = file(var.ssh_pvt_key)
+#   }
+# }
+
+}
+
+# resource "aws_db_instance" "database13" {
+#   allocated_storage    = 20
+#   engine               = "mysql"
+#   engine_version       = "8.0"
+#   instance_class       = "db.t3.micro"
+#   db_name              = "mydb"
+#   username             = "admin"
+#   password             = "zxcvbnm123"
+#   availability_zone = "ap-southeast-1a"
+#   db_subnet_group_name = aws_db_subnet_group.mydb-snetgrp.name
+#   vpc_security_group_ids = [var.rds-sg-id]
+#   # parameter_group_name = "default.mysql5.7"
+#   skip_final_snapshot  = true
+# }
+
+# resource "aws_db_subnet_group" "mydb-snetgrp" {
+#   name       = "mydb-snet"
+#   subnet_ids = [var.rds-subnet1,var.rds-subnet2]
+
+#   tags = {
+#     Name = "My DB subnet group"
 #   }
 # }
 

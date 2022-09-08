@@ -1,3 +1,4 @@
-output "no-of-ec2" {
-  value = aws_instance.web
+output "ec2_id" {
+  value = {for k ,v in aws_instance.web:k=>v.id}
 }
+

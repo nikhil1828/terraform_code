@@ -1,5 +1,4 @@
-
-# decleration of vpc
+//decleration of vpc
 resource "aws_vpc" "test_vpc" {
   cidr_block = var.vpc_cidr
   instance_tenancy = "default"
@@ -10,11 +9,8 @@ resource "aws_vpc" "test_vpc" {
   }
 }
 
-data "aws_availability_zones" "available"{
-  state = "available"
-}
 
-# decleration of public subnet
+//decleration of public subnet
 # resource "aws_subnet" "pub-snet" {
 #     count = length(var.pubcidr)
 #     vpc_id     = aws_vpc.test_vpc.id 
@@ -91,6 +87,20 @@ resource "aws_internet_gateway" "igw" {
    }
  }
 
+   resource "aws_route_table" "pvt_rt" {
+  vpc_id = aws_vpc.test_vpc.id
+
+  #   route {
+  #  cidr_block = "0.0.0.0/0"
+  #  gateway_id = aws_internet_gateway.igw.id
+  #  }
+
+   tags = {
+   Name = "${terraform.workspace}_vpc_pvt_rt"
+   env = "${terraform.workspace}"
+   }
+ }
+
  # associating a igw in a subnet
 #  resource "aws_route_table_association" "vpc_asoc" {
 #  count = length (var.pubcidr)
@@ -102,6 +112,12 @@ resource "aws_route_table_association" "pbsnet_assoc" {
  for_each = aws_subnet.pub-snet
  subnet_id   = each.value.id
  route_table_id = aws_route_table.pub_rt.id
+}
+
+resource "aws_route_table_association" "pvtsnet_assoc" {
+ for_each = aws_subnet.pri-snet
+ subnet_id   = each.value.id
+ route_table_id = aws_route_table.pvt_rt.id
 }
 
 #  resource "aws_eip" "eip-for-nat" { }

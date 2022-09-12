@@ -1,8 +1,5 @@
 # Decalring VPC CIDR
-variable "vpc_cidr" {
-  type = string
-  default = "10.0.0.0/20"
-}
+variable "vpc_cidr" {}
 
 #declaring variable for pub cidr
 # variable "pubcidr" {

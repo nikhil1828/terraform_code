@@ -3,12 +3,13 @@ provider "aws" {
   profile = "dev"
 }
 
-data "aws_availability_zones" "available" {
-  state = "available"
-}
+# data "aws_availability_zones" "available" {
+#   state = "available"
+# }
 
 module "nw" {
   source = "./module/nw"
+  vpc_cidr = "10.0.0.0/20"
   pub_sn_details = {
 
     "snet-pb-1" ={
@@ -35,9 +36,16 @@ module "nw" {
   pub-snet-name = "snet-pb-1"
 }
 
+output "vpcid" {
+  value = module.nw.vpc_id
+}
 output "pub-snetid" {
-    value = lookup(module.nw.pub_snetid,"snet-pb-1", null).id
+    value = {id1 = lookup(module.nw.pub_snetid,"snet-pb-1", null).id, id2= lookup(module.nw.pub_snetid,"snet-pb-2", null).id}
   }
+
+# output "pub_snetid" {
+#   value = module.nw.ec2_id
+# }
 
 module "sg" {
   source = "./module/sg"
@@ -162,25 +170,28 @@ module "sg2" {
 #   password = "zxcvbnm123"
 #   dbname = "mydb"
 #   rds-sg-id = lookup(module.sg2.sg_id,"rds-sg",null)
-  
 # }
 
 module "ec2" {
   source = "./module/ec2"
-  ec2_sub = {
-    ec2-001 = {
-      pub-snet = lookup(module.nw.pub_snetid,"snet-pb-1", null).id
-    },
-    ec2-002 = {
-      pub-snet = lookup(module.nw.pub_snetid,"snet-pb-2", null).id
-    }
-  }
-  sg = lookup(module.sg.sg_id,"ec2-sg",null)
+  ec2_sub = lookup(module.nw.pub_snetid,"snet-pb-1",null).id
+  # ec2_sub = {
+  #   ec2-001 = {
+  #     pub-snet = lookup(module.nw.pub_snetid,"snet-pb-1", null).id
+  #   },
+  #   ec2-002 = {
+  #     pub-snet = lookup(module.nw.pub_snetid,"snet-pb-2", null).id
+  #   }
+  # }
+  sg = [lookup(module.sg.sg_id,"ec2-sg",null)]
   ami_id = "ami-04ff9e9b51c1f62ca"
   instance_type = "t2.micro"
   key_name = "key_singapore"
-  
 }
+  
+output "ec2detials" {
+      value = module.ec2.ec2_id
+  }
 
 # module "lb" {
 #   source ="./module/lb"
@@ -207,10 +218,18 @@ module "lb" {
       snetid = lookup(module.nw.pub_snetid,"snet-pb-2",null).id
     }
   }
+  sub2-id = {
+    lb-sub1 ={
+      snetid = lookup(module.nw.pvt_snetid,"snet-pvt-1",null).id
+    },
+    lb-sub2 ={
+      snetid = lookup(module.nw.pvt_snetid,"snet-pvt-2",null).id
+    }
+  }
   sg = lookup(module.sg.sg_id,"lb-sg",null)
   tg_vpc = module.nw.vpc_id
-  # total-ec2 = module.ec2.no-of-ec2
-  tg-name = "ec2-tg-grp"
+  tg-name = "ec2-tg1-grp"
+  tg-name2 = "ec2-tg2-grp"
   # ec2_id = {
   #   ec2-001 ={
   #     ec2id = lookup(module.ec2.ec2_id, "ec2-001")
@@ -219,12 +238,42 @@ module "lb" {
   #     ec2id = lookup(module.ec2.ec2_id, "ec2-002")
   #   }
   # }
-  ec2_id = module.ec2.ec2_id
-  lb_name = "ec2-ealb"
+  # ec2_id = module.ec2.ec2_id
+  lb_name = "pub-ealb"
+  lb_name2 = "pvt-ealb"
   internal = false
+  internal2 = true
   ip_type = "ipv4"
   action-type = "forward"
 }
+
+# module "lb2" {
+#   source ="./module/lb"
+#   sub-id = {
+#     lb2-sub1 ={
+#       snetid = lookup(module.nw.pvt_snetid,"snet-pvt-1",null).id
+#     },
+#     lb2-sub2 ={
+#       snetid = lookup(module.nw.pvt_snetid,"snet-pvt-2",null).id
+#     }
+#   }
+#   sg = lookup(module.sg.sg_id,"lb-sg",null)
+#   tg_vpc = module.nw.vpc_id
+#   tg-name = "ec2-tg2-grp"
+#   # ec2_id = {
+#   #   ec2-001 ={
+#   #     ec2id = lookup(module.ec2.ec2_id, "ec2-001")
+#   #   },
+#   #   ec2-002 ={
+#   #     ec2id = lookup(module.ec2.ec2_id, "ec2-002")
+#   #   }
+#   # }
+#   # ec2_id = module.ec2.ec2_id
+#   lb_name = "pvt-ealb"
+#   internal = true
+#   ip_type = "ipv4"
+#   action-type = "forward"
+# }
 
 
 # module "asg" {
@@ -244,44 +293,57 @@ module "lb" {
 #   hc_type = "ELB"
 # }
 
-# # element(module.nw.pub_snetid,1)
 
-# output "pb-snet-ids" {
-#   value = module.nw.pub_snetid
-# }
-
-module "test" {
-  source = "./test"
+module "asg" {
+  source = "./module/asg"
+  lc_name = "web_config1"
+  image_id = "ami-052be32294d30838c"
+  instance_type = "t2.micro"
+  key_name = "key_singapore"
+  sg = [lookup(module.sg.sg_id,"lb-sg",null)]
+  asg_name = "terraform-asg1"
+  asg_name2 = "terraform-asg2"
+  min-size = 1
+  max-size = 3
+  desired_capacity = 2
+  snet = [lookup(module.nw.pub_snetid,"snet-pb-1",null).id, lookup(module.nw.pub_snetid,"snet-pb-2",null).id]
+  snet2 = {
+    asg-sub1 ={
+      snetid = lookup(module.nw.pvt_snetid,"snet-pvt-1",null).id
+    },
+    asg-sub2 ={
+      snetid = lookup(module.nw.pvt_snetid,"snet-pvt-2",null).id
+    }
+  }
+  tg-arn = module.lb.tg-arn
+  tg2-arn = module.lb.tg2-arn
+  grace_period = 300
+  hc_type = "ELB"
 }
-# output "join-test" {
-#   value = module.test.join-fn
+
+# module "asg2" {
+#   source = "./module/asg"
+#   lc_name = "web_config2"
+#   image_id = "ami-052be32294d30838c"
+#   instance_type = "t2.micro"
+#   key_name = "key_singapore"
+#   sg = [lookup(module.sg.sg_id,"lb-sg",null)]
+#   asg_name = "terraform-asg2"
+#   min-size = 1
+#   max-size = 3
+#   desired_capacity = 2
+#   snet = [lookup(module.nw.pvt_snetid,"snet-pvt-1",null).id,lookup(module.nw.pvt_snetid,"snet-pvt-2",null).id]
+#   # pub_snet = {
+#   #   asg-sub1 ={
+#   #     snetid = lookup(module.nw.pub_snetid,"snet-pb-1",null).id
+#   #   },
+#   #   asg-sub2 ={
+#   #     snetid = lookup(module.nw.pub_snetid,"snet-pb-2",null).id
+#   #   }
+#   # }
+#   tg-arn = module.lb2.tg-arn
+#   grace_period = 300
+#   hc_type = "ELB"
 # }
 
-# output "chomp-fn-1" {
-#   value = module.test.chomp-fn
-# }
-
-# output "substr" {
-#  value = module.test.substr-test 
-# }
-
-# output "trimfn" {
-#  value = module.test.split-test 
-# }
-
-# output "chunk-list" {
-#  value = module.test.chunk
-# }
-
-# output "colesce-test" {
-#   value = module.test.coelesce
-# }
-
-# output "contains-test" {
-#   value = module.test.contains
-# }
-
-# output "tolist-test" {
-#   value = module.test.tolist
-# }
-
+# # element(module.nw.pub_snetid,1)

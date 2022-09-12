@@ -9,9 +9,10 @@ variable "key_name" {}
 variable "sg" {}
 
 variable "ec2_sub" {
-  type = map(object({
-    pub-snet = string
-  }))
+  # type = list
+  # type = map(object({
+  #   pub-snet = string
+  # }))
 }
 
 # //ELASTIC LOAD BALANCER///

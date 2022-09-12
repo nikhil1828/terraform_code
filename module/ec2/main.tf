@@ -77,12 +77,13 @@
 
 resource "aws_instance" "web" {
   # count = length(var.pub_snet)
-  for_each = var.ec2_sub
+  # for_each = var.ec2_sub
   ami           = var.ami_id
   instance_type = var.instance_type
   key_name = var.key_name
-  security_groups = [var.sg]
-  subnet_id = each.value["pub-snet"]
+  security_groups = var.sg
+  subnet_id = var.ec2_sub
+  # subnet_id = each.value["pub-snet"]
   # iam_instance_profile = aws_iam_instance_profile.test_profile.name
   user_data = <<-EOF
   #!/bin/bash
@@ -96,7 +97,6 @@ resource "aws_instance" "web" {
   cd /var/www/html
   wget http://wordpress.org/latest.tar.gz
   tar xzvf latest.tar.gz
-
   EOF
   tags = {
     Name = "${terraform.workspace}_ec2"

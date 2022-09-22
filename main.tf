@@ -8,7 +8,7 @@ provider "aws" {
 
 #testing for versioning second branch
   
-  
+
 module "nw" {
   source = "./module/nw"
   vpc_cidr = "10.0.0.0/20"
@@ -49,113 +49,113 @@ output "pub-snetid" {
 #   value = module.nw.ec2_id
 # }
 
-# module "sg" {
-#   source = "./module/sg"
-#   sg_details = {
+module "sg" {
+  source = "./module/sg"
+  sg_details = {
 
-#   "ec2-sg" = {
-#     name        = "ec2-http/s"
-#     description = "SG for ec2"
-#     vpc_id      = module.nw.vpc_id
-#     ingress_rules = [
-#       {
-#         from_port         = 80
-#         to_port           = 80
-#         protocol          = "tcp"
-#         cidr_blocks       = ["0.0.0.0/0"]
-#         self = null
-#         security_groups = null
-#       },
-#       {
-#         from_port         = 22
-#         to_port           = 22
-#         protocol          = "tcp"
-#         cidr_blocks       = ["0.0.0.0/0"]
-#         self = null
-#         security_groups = null
-#       },
-#       {
-#         from_port         = 443
-#         to_port           = 443
-#         protocol          = "tcp"
-#         cidr_blocks       = ["0.0.0.0/0"]
-#         self = null
-#         security_groups = null
-#       }
-#     ]
-#   },
-#   "lb-sg" = {
-#     name        = "lb-http/s"
-#     description = "SG for ELB"
-#     vpc_id      = module.nw.vpc_id
-#     ingress_rules = [
-#       {
-#         from_port         = 80
-#         to_port           = 80
-#         protocol          = "tcp"
-#         cidr_blocks       = ["0.0.0.0/0"]
-#         self = null
-#         security_groups = null
+  "ec2-sg" = {
+    name        = "ec2-http/s"
+    description = "SG for ec2"
+    vpc_id      = module.nw.vpc_id
+    ingress_rules = [
+      {
+        from_port         = 80
+        to_port           = 80
+        protocol          = "tcp"
+        cidr_blocks       = ["0.0.0.0/0"]
+        self = null
+        security_groups = null
+      },
+      {
+        from_port         = 22
+        to_port           = 22
+        protocol          = "tcp"
+        cidr_blocks       = ["0.0.0.0/0"]
+        self = null
+        security_groups = null
+      },
+      {
+        from_port         = 443
+        to_port           = 443
+        protocol          = "tcp"
+        cidr_blocks       = ["0.0.0.0/0"]
+        self = null
+        security_groups = null
+      }
+    ]
+  },
+  "lb-sg" = {
+    name        = "lb-http/s"
+    description = "SG for ELB"
+    vpc_id      = module.nw.vpc_id
+    ingress_rules = [
+      {
+        from_port         = 80
+        to_port           = 80
+        protocol          = "tcp"
+        cidr_blocks       = ["0.0.0.0/0"]
+        self = null
+        security_groups = null
 
-#       },
-#       {
-#         from_port         = 443
-#         to_port           = 443
-#         protocol          = "tcp"
-#         cidr_blocks       = ["0.0.0.0/0"]
-#         self = null
-#         security_groups = null
-#       },
-#       {
-#         from_port         = 22
-#         to_port           = 22
-#         protocol          = "tcp"
-#         cidr_blocks       = ["0.0.0.0/0"]
-#         self = null
-#         security_groups = null
-#       }
-#     ]
-#   }
-#   # "rds-sg" = {
-#   #   name        = "lb-http/s"
-#   #   description = "SG for ELB"
-#   #   vpc_id      = module.nw.vpc_id
-#   #   ingress_rules = [
-#   #     {
-#   #       from_port         = 3306
-#   #       to_port           = 3306
-#   #       protocol          = "tcp"
-#   #       cidr_blocks       = [module.nw.vpc_id]
-#   #       # security_groups   = ["${aws_security_group.allow_tls.id}"]
-#   #        security_groups   = [lookup(module.sg.sg_id,"ec2-sg",null)]
-#   #       # self = null
-#   #     }
-#   #   ]
-#   # }
-# }
-# }
+      },
+      {
+        from_port         = 443
+        to_port           = 443
+        protocol          = "tcp"
+        cidr_blocks       = ["0.0.0.0/0"]
+        self = null
+        security_groups = null
+      },
+      {
+        from_port         = 22
+        to_port           = 22
+        protocol          = "tcp"
+        cidr_blocks       = ["0.0.0.0/0"]
+        self = null
+        security_groups = null
+      }
+    ]
+  }
+  # "rds-sg" = {
+  #   name        = "lb-http/s"
+  #   description = "SG for ELB"
+  #   vpc_id      = module.nw.vpc_id
+  #   ingress_rules = [
+  #     {
+  #       from_port         = 3306
+  #       to_port           = 3306
+  #       protocol          = "tcp"
+  #       cidr_blocks       = [module.nw.vpc_id]
+  #       # security_groups   = ["${aws_security_group.allow_tls.id}"]
+  #        security_groups   = [lookup(module.sg.sg_id,"ec2-sg",null)]
+  #       # self = null
+  #     }
+  #   ]
+  # }
+}
+}
 
-# module "sg2" {
-#   source = "./module/sg"
-#   sg_details = {
-#   "rds-sg" = {
-#     name        = "lb_http/s"
-#     description = "SG for ELB"
-#     vpc_id      = module.nw.vpc_id
-#     ingress_rules = [
-#       {
-#         from_port         = 3306
-#         to_port           = 3306
-#         protocol          = "tcp"
-#         cidr_blocks       = ["0.0.0.0/0"]
-#         # security_groups   = ["${aws_security_group.allow_tls.id}"]
-#          security_groups   = [lookup(module.sg.sg_id,"ec2-sg",null)]
-#         self = null
-#       }
-#     ]
-#   }
-#   }
-# }
+module "sg2" {
+  source = "./module/sg"
+  sg_details = {
+  "rds-sg" = {
+    name        = "lb_http/s"
+    description = "SG for ELB"
+    vpc_id      = module.nw.vpc_id
+    ingress_rules = [
+      {
+        from_port         = 3306
+        to_port           = 3306
+        protocol          = "tcp"
+        cidr_blocks       = ["0.0.0.0/0"]
+        # security_groups   = ["${aws_security_group.allow_tls.id}"]
+         security_groups   = [lookup(module.sg.sg_id,"ec2-sg",null)]
+        self = null
+      }
+    ]
+  }
+  }
+}
  
 # # module "ec2" {
 # #   source = "./module/ec2"

@@ -4,11 +4,11 @@ on: workflow_dispatch
 job:
   job1: 
     runs-on: ubuntu-latest
-      steps:
-        step1:
-          run: echo "::set-output name=test::hello"
-        step2:
-          run: echo "::set-output name=test2::world"
+    steps:
+      -id: step1
+      run: echo "::set-output name=test::hello"
+      -id: step2
+      run: echo "::set-output name=test2::world"
     outputs:
       output1: ${{ steps.step1.outputs.test }}
       output2: ${{ steps.step2.outputs.test2 }}
@@ -17,5 +17,5 @@ job:
     runs-on: ubuntu-latest
     needs: job1
       steps:
-        step1:
-          run: echo ${{ needs.job1.outputs.output1}} echo ${{ needs.job1.outputs.output2}}
+        -id: step1
+        run: echo ${{ needs.job1.outputs.output1}} echo ${{ needs.job1.outputs.output2}}

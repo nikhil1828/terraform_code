@@ -21,11 +21,20 @@ jobs:
       # - name: terraform plan 
       #   uses: dflook/terraform-plan@v1
       
-      - name: Terraform Initialized
-        run:  terraform init
+      - name: configure AWS
+        uses: aws-actions/configure-aws-credentials@v1
+        with: 
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
 
-      - name: Terraform Plan
-        run:  terraform plan -input=false
+      # - name: Terraform Initialized
+      #   run:  terraform init
 
-      - name: List files
-        run: ls 
+      # - name: Terraform Plan
+      #   run:  terraform plan -input=false
+
+      - name: create launch configuration and update ASG
+        run: aws autoscaling create-launch-configuration --launch-configuration-name cli-my-lc --instance-type t2.micro --key-name key_singapore --image-id ami-052be32294d30838c
+        aws autoscaling update-auto-scaling-group --auto-scaling-group-name terraform-asg120220926101656783300000003 --launch-configuration-name cli-my-lc
+        aws autoscaling update-auto-scaling-group --auto-scaling-group-name terraform-asg220220926101649018400000002 --launch-configuration-name cli-my-lc

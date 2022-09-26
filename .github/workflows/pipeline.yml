@@ -36,5 +36,5 @@ jobs:
 
       - name: create launch configuration and update ASG
         run: aws autoscaling create-launch-configuration --launch-configuration-name cli-my-lc --instance-type t2.micro --key-name key_singapore --image-id ami-052be32294d30838c
-        aws autoscaling update-auto-scaling-group --auto-scaling-group-name terraform-asg120220926101656783300000003 --launch-configuration-name cli-my-lc
-        aws autoscaling update-auto-scaling-group --auto-scaling-group-name terraform-asg220220926101649018400000002 --launch-configuration-name cli-my-lc
+            aws autoscaling update-auto-scaling-group --auto-scaling-group-name terraform-asg120220926101656783300000003 --launch-configuration-name cli-my-lc
+            aws autoscaling update-auto-scaling-group --auto-scaling-group-name terraform-asg220220926101649018400000002 --launch-configuration-name cli-my-lc

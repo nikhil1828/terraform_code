@@ -39,3 +39,4 @@ jobs:
       
       - name: update ASG 2
         run: aws autoscaling update-auto-scaling-group --auto-scaling-group-name terraform-asg220220926101649018400000002 --launch-configuration-name my-lc
+##testseries

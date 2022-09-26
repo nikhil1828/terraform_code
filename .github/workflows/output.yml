@@ -11,7 +11,7 @@ jobs:
       - id: step1
         run: echo "::set-output name=test::hello"
       - id: step2
-        run: echo "::set-output name=test::world"
+        run: echo "::set-output name=test::india"
   job2:
     runs-on: ubuntu-latest
     needs: job1

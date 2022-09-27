@@ -6,7 +6,16 @@ on:
   # pull_request:
 
 jobs:
-  terraform:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: rickstaa/action-create-tag@v1
+        with:
+          tag: "tag-1"
+          message: "creating tag 1"
+
+  job2:
     name:    Terraform CI/CD
     runs-on: ubuntu-latest
     env:

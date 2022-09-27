@@ -12,27 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: Actions-R-Us/actions-tagger@latest
-        with:
-          publish_latest: true
-        env:
-          GITHUB_TOKEN: '${{secrets.GITHUB_TOKEN}}'
-
-      
-
-      # - name: Generate release tag
-      #   uses: amitsingh-007/next-release-tag@v1.0.0
-      #   with:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # - name: Create Release
-      #   uses: actions/create-release@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     tag_name: ${{ env.release_tag }}
-      #     release_name: Release ${{ env.release_tag }}
-
       - uses: anothrNick/github-tag-action@1.40.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -44,25 +23,6 @@ jobs:
       #     automatic_release_tag: latest
       #     prerelease: true
       #     # title: "Development Build"
-
-
-      # - uses: phish108/autotag-action@1.1.52
-      #   with:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
-
-      # - uses: Klemensas/action-autotag@stable
-      #   with:
-      #     GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-      #     tag_prefix: "v"
-      
-      # - uses: aurestic/incrementarl-create-release@master
-      #   with:
-      #     flag_branch: false
-      #     message: Bump version
-      #     prev_tag: 'v'
-      #     update_odoo_module_version: false
-      #   env:
-      #     GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
   # job2:
   #   # needs: job1

@@ -2,7 +2,7 @@ name: Terraform Execution
 
 on:
   push:
-    branches: [feature, master]
+    branches: [feature]
 
 jobs:
 
@@ -14,6 +14,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
+
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Development Build"
+          files: |
+            LICENSE.txt
+            *.jar
 
       # - uses: phish108/autotag-action@1.1.52
       #   with:

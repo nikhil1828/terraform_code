@@ -10,18 +10,20 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+      
       - uses: Actions-R-Us/actions-tagger@latest
         with:
           publish_latest: true
         env:
           GITHUB_TOKEN: '${{secrets.GITHUB_TOKEN}}'
-          
-      # - uses: actions/checkout@v3
 
-      # - name: Generate release tag
-      #   uses: amitsingh-007/next-release-tag@v1.0.0
-      #   with:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+
+      - name: Generate release tag
+        uses: amitsingh-007/next-release-tag@v1.0.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # - name: Create Release
       #   uses: actions/create-release@v1

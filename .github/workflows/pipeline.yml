@@ -12,11 +12,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: aurestic/incrementarl-create-release@master
-        # with:
+        with:
           # flag_branch: false
-          # message: Bump version
-          # prev_tag: 'v'
-          # update_odoo_module_version: true
+          message: Bump version
+          prev_tag: 'v'
+          update_odoo_module_version: true
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
@@ -54,4 +54,4 @@ jobs:
       # - name: update ASG 2
       #   run: aws autoscaling update-auto-scaling-group --auto-scaling-group-name terraform-asg220220926101649018400000002 --launch-configuration-name my-lc
 
-      ######
+      

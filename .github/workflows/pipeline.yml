@@ -2,7 +2,7 @@ name: Terraform Execution
 
 on:
   push:
-    branches: [feature]
+    branches: [master]
 
 jobs:
 

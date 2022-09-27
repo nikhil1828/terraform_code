@@ -18,12 +18,10 @@ jobs:
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
+          automatic_release_tag: latest
           prerelease: true
-          title: "Development Build"
-          files: |
-            LICENSE.txt
-            *.jar
+          # title: "Development Build"
+
 
       # - uses: phish108/autotag-action@1.1.52
       #   with:

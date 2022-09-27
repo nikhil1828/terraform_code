@@ -11,10 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: Klemensas/action-autotag@stable
+      - uses: phish108/autotag-action@1.1.52
         with:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          tag_prefix: "v"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+
+      # - uses: Klemensas/action-autotag@stable
+      #   with:
+      #     GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      #     tag_prefix: "v"
       
       # - uses: aurestic/incrementarl-create-release@master
       #   with:

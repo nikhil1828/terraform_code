@@ -5,7 +5,7 @@ on:
     branches: [feature]
   # pull_request:
 
-stages:
+  stages:
     - stage: STAGE 1
       jobs:
         J1:
@@ -53,11 +53,4 @@ stages:
               run: echo "STAGE2 JOB2 STEP2 executed"
 
 
-
-
-
-
-              ##########
-
-
-              #######
+#################

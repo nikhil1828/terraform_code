@@ -1,0 +1,23 @@
+name: Terraform Execution
+on:
+  push:
+    branches: [feat]
+  # pull_request:
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: echo "hello"
+  job2:
+    needs: job1
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: echo "hello2"
+  job3:
+    needs: job1
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: echo "hello3"

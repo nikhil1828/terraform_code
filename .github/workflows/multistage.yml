@@ -4,32 +4,18 @@ on:
     branches: [feature]
   # pull_request:
 jobs:
-  J1:
-  # runs-on: ubuntu-latest
-  # env:
-  #   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-  # steps:
-    - uses: actions/checkout@v3
-    - id: STEP 1
-      run: echo "STAGE1 JOB1 STEP1 executed"
-    - id: STEP 2
-      run: echo "STAGE1 JOB1 STEP2 executed"
-  J2:
-    - uses: actions/checkout@v3
-    - id: STEP 1
-      run: echo "STAGE1 JOB2 STEP1 executed"
-    - id: STEP 2
-      run: echo "STAGE1 JOB2 STEP2 executed"
-  J3:
-    - uses: actions/checkout@v3
-    - id: STEP 1
-      run: echo "STAGE2 JOB1 STEP1 executed"
-    - id: STEP 2
-      run: echo "STAGE2 JOB1 STEP2 executed"
-  J4:
-    - uses: actions/checkout@v3
-    - id: STEP 1
-      run: echo "STAGE2 JOB2 STEP1 executed"
-    - id: STEP 2
-      run: echo "STAGE2 JOB2 STEP2 executed"
-###############
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: echo "hello"
+  job2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: echo "hello2"
+  job3:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: echo "hello3"

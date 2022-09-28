@@ -5,6 +5,7 @@ on:
   # pull_request:
 jobs:
   build:
+    if: github.repository == 'terraform_code12'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

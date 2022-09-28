@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v3
       - run: echo "hello3"
   deploy:
-    needs: test1,test2
+    needs: [test1,test2]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

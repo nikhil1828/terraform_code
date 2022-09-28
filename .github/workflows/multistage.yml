@@ -6,7 +6,7 @@ on:
   # pull_request:
 
   stages:
-    - stage: STAGE 1
+    - stage: TEST
       jobs:
         J1:
           runs-on: ubuntu-latest
@@ -29,7 +29,7 @@ on:
             - id: STEP 2
               run: echo "STAGE1 JOB2 STEP2 executed"
 
-    - stage: STAGE 2
+    - stage: DEV
       jobs:
         J1:
           runs-on: ubuntu-latest

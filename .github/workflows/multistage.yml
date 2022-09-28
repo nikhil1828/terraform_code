@@ -15,7 +15,7 @@ jobs:
     - id: STEP 2
       run: echo "STAGE1 JOB1 STEP2 executed"
   J2:
-  runs-on: ubuntu-latest
+  # runs-on: ubuntu-latest
   env:
     GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
   steps:
@@ -25,7 +25,7 @@ jobs:
     - id: STEP 2
       run: echo "STAGE1 JOB2 STEP2 executed"
   J3:
-  runs-on: ubuntu-latest
+  # runs-on: ubuntu-latest
   env:
     GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
   steps:
@@ -35,7 +35,7 @@ jobs:
     - id: STEP 2
       run: echo "STAGE2 JOB1 STEP2 executed"
   J4:
-  runs-on: ubuntu-latest
+  # runs-on: ubuntu-latest
   env:
     GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
   steps:

@@ -1,10 +1,8 @@
 name: Terraform Execution
-
 on:
   push:
     branches: [feature]
   # pull_request:
-
   stages:
     - stage: TEST
       jobs:
@@ -28,7 +26,6 @@ on:
               run: echo "STAGE1 JOB2 STEP1 executed"
             - id: STEP 2
               run: echo "STAGE1 JOB2 STEP2 executed"
-
     - stage: DEV
       jobs:
         J1:
@@ -51,6 +48,4 @@ on:
               run: echo "STAGE2 JOB2 STEP1 executed"
             - id: STEP 2
               run: echo "STAGE2 JOB2 STEP2 executed"
-
-
 #################

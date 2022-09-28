@@ -12,10 +12,23 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: anothrNick/github-tag-action@1.40.0
+      - name: Generate release tag
+        uses: amitsingh-007/next-release-tag@v1.0.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Release
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WITH_V: true
+        with:
+          tag_name: ${{ env.release_tag }}
+          release_name: Release ${{ env.release_tag }}
+
+      # - uses: anothrNick/github-tag-action@1.40.0
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     WITH_V: true
 
       # - uses: "marvinpinto/action-automatic-releases@latest"
       #   with:
@@ -52,11 +65,3 @@ jobs:
   #     - name: Terraform Plan
   #       run:  terraform plan -input=false
     
-      # - name: update ASG 1
-      #   run: aws autoscaling update-auto-scaling-group --auto-scaling-group-name terraform-asg120220926101656783300000003 --launch-configuration-name my-lc
-    
-      # - name: update ASG 2
-      #   run: aws autoscaling update-auto-scaling-group --auto-scaling-group-name terraform-asg220220926101649018400000002 --launch-configuration-name my-lc
-
-      
-##########

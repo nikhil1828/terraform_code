@@ -14,4 +14,4 @@ jobs:
       - run: | 
           AUTH_HEADER="Authorization: token ${{ secrets.GITHUB_TOKEN }}"
           PAYLOAD='{ "event_type": "deploy_service", "client_payload": { "service": "'"$SERVICE_NAME"'", "version": "'"$RELEASE_VERSION"'" }}'
-          curl --request POST "$DEPLOYMENT_NOTIFICATION_URL" --header "$AUTH_HEADER" --header "Content-Type: application/json" --data-raw "$PAYLOAD" -f -i
+          curl --request POST "$DEPLOYMENT_NOTIFICATION_URL" --header "$AUTH_HEADER" --header "Content-Type: application/json" --data-raw "$PAYLOAD" -f -i\

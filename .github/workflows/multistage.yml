@@ -1,22 +1,32 @@
-name: Terraform Execution
+name: terraform-execution
 on:
-  push:
-    branches: [feat]
+  # push:
+  #   branches: [feat]
   # pull_request:
+  repository_dispatch:
+    types:
+      - deploy_service
 jobs:
-  job1:
+  build:
+    if: github.repository == 'nikhil1828/terraform_code'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - run: echo "hello"
-  job2:
-    needs: job1
+  test1:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - run: echo "hello2"
-  job3:
-    needs: job1
+  test2:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: echo "hello3"
+  deploy:
+    needs: [test1,test2]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

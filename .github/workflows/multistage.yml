@@ -6,7 +6,7 @@ on:
     stages:
       - stage: TEST
         jobs:
-          J1:
+          J1: job1
             runs-on: ubuntu-latest
             env:
               GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
@@ -16,7 +16,7 @@ on:
                 run: echo "STAGE1 JOB1 STEP1 executed"
               - id: STEP 2
                 run: echo "STAGE1 JOB1 STEP2 executed"
-          J2:
+          J2: job2
             runs-on: ubuntu-latest
             env:
               GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
@@ -28,7 +28,7 @@ on:
                 run: echo "STAGE1 JOB2 STEP2 executed"
       - stage: DEV
         jobs:
-          J1:
+          J3: job3
             runs-on: ubuntu-latest
             env:
               GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
@@ -38,7 +38,7 @@ on:
                 run: echo "STAGE2 JOB1 STEP1 executed"
               - id: STEP 2
                 run: echo "STAGE2 JOB1 STEP2 executed"
-          J2:
+          J4: job4
             runs-on: ubuntu-latest
             env:
               GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

@@ -5,7 +5,7 @@ on:
     branches: [feature]
   # pull_request:
 
-  stages:
+stages:
     - stage: STAGE 1
       jobs:
         J1:

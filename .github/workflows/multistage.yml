@@ -5,9 +5,9 @@ on:
   # pull_request:
 jobs:
   J1:
-  runs-on: ubuntu-latest
-  env:
-    GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  # runs-on: ubuntu-latest
+  # env:
+  #   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
   steps:
     - uses: actions/checkout@v3
     - id: STEP 1

@@ -17,12 +17,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
 
-      # - uses: "marvinpinto/action-automatic-releases@latest"
-      #   with:
-      #     repo_token: "${{ secrets.GITHUB_TOKEN }}"
-      #     automatic_release_tag: latest
-      #     prerelease: true
-      #     # title: "Development Build"
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: latest
+          prerelease: true
+          # title: "Development Build"
 
   # job2:
   #   # needs: job1
@@ -52,11 +52,3 @@ jobs:
   #     - name: Terraform Plan
   #       run:  terraform plan -input=false
     
-      # - name: update ASG 1
-      #   run: aws autoscaling update-auto-scaling-group --auto-scaling-group-name terraform-asg120220926101656783300000003 --launch-configuration-name my-lc
-    
-      # - name: update ASG 2
-      #   run: aws autoscaling update-auto-scaling-group --auto-scaling-group-name terraform-asg220220926101649018400000002 --launch-configuration-name my-lc
-
-      
-##########

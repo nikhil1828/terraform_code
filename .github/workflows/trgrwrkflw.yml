@@ -8,7 +8,7 @@ jobs:
   deploy:
     env: 
       SERVICE_NAME: starter-service
-      DEPLOYMENT_NOTIFICATION_URL: https://api.github.com/repos/nikhil1828/terraform_code/action/workflows/terrafrom-execution/dispatches
+      DEPLOYMENT_NOTIFICATION_URL: https://api.github.com/repos/nikhil1828/terraform_code/action/workflows/terraform-execution/dispatches
     runs-on: ubuntu-latest
     steps:
       - run: | 

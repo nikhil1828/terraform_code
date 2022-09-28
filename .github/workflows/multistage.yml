@@ -8,7 +8,7 @@ jobs:
   # runs-on: ubuntu-latest
   # env:
   #   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-  steps:
+  # steps:
     - uses: actions/checkout@v3
     - id: STEP 1
       run: echo "STAGE1 JOB1 STEP1 executed"

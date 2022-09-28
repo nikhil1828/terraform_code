@@ -5,7 +5,7 @@ on:
   # pull_request:
 jobs:
   build:
-    if: github.repository == 'nikhil/1828terraform_code'
+    if: github.repository == 'nikhil1828/terraform_code'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

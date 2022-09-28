@@ -2,50 +2,50 @@ name: Terraform Execution
 on:
   push:
     branches: [feature]
-    # pull_request:
-    stages:
-      - stage: TEST
-        jobs:
-          J1: job1
-            # runs-on: ubuntu-latest
-            env:
-              GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-            steps:
-              - uses: actions/checkout@v3
-              - id: STEP 1
-                run: echo "STAGE1 JOB1 STEP1 executed"
-              - id: STEP 2
-                run: echo "STAGE1 JOB1 STEP2 executed"
-          J2: job2
-            # runs-on: ubuntu-latest
-            env:
-              GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-            steps:
-              - uses: actions/checkout@v3
-              - id: STEP 1
-                run: echo "STAGE1 JOB2 STEP1 executed"
-              - id: STEP 2
-                run: echo "STAGE1 JOB2 STEP2 executed"
-      - stage: DEV
-        jobs:
-          J3: job3
-            # runs-on: ubuntu-latest
-            env:
-              GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-            steps:
-              - uses: actions/checkout@v3
-              - id: STEP 1
-                run: echo "STAGE2 JOB1 STEP1 executed"
-              - id: STEP 2
-                run: echo "STAGE2 JOB1 STEP2 executed"
-          J4: job4
-            # runs-on: ubuntu-latest
-            env:
-              GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-            steps:
-              - uses: actions/checkout@v3
-              - id: STEP 1
-                run: echo "STAGE2 JOB2 STEP1 executed"
-              - id: STEP 2
-                run: echo "STAGE2 JOB2 STEP2 executed"
-##  ###############
+  # pull_request:
+stages:
+  - stage: TEST
+    jobs:
+      J1: job1
+        runs-on: ubuntu-latest
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        steps:
+          - uses: actions/checkout@v3
+          - id: STEP 1
+            run: echo "STAGE1 JOB1 STEP1 executed"
+          - id: STEP 2
+            run: echo "STAGE1 JOB1 STEP2 executed"
+      J2: job2
+        runs-on: ubuntu-latest
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        steps:
+          - uses: actions/checkout@v3
+          - id: STEP 1
+            run: echo "STAGE1 JOB2 STEP1 executed"
+          - id: STEP 2
+            run: echo "STAGE1 JOB2 STEP2 executed"
+  - stage: DEV
+    jobs:
+      J3: job3
+        runs-on: ubuntu-latest
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        steps:
+          - uses: actions/checkout@v3
+          - id: STEP 1
+            run: echo "STAGE2 JOB1 STEP1 executed"
+          - id: STEP 2
+            run: echo "STAGE2 JOB1 STEP2 executed"
+      J4: job4
+        runs-on: ubuntu-latest
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        steps:
+          - uses: actions/checkout@v3
+          - id: STEP 1
+            run: echo "STAGE2 JOB2 STEP1 executed"
+          - id: STEP 2
+            run: echo "STAGE2 JOB2 STEP2 executed"
+#################

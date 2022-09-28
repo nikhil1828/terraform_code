@@ -8,9 +8,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      env: 
+        SERVICE_NAME: starter-service
+        DEPLOYMENT_NOTIFICATION_URL: https://api.github.com/repos/nikhil1828/terraform_code/action/workflows/terrafrom-execution/dispatches
       - run: |
-          curl -X POST \
-          -H "Authorization: Bearer ${{secrets.ACCESS_TOKEN}}" \
-          -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/komal0094/terraform_code2/.github/workflows/multistages.yml/dispatches \
-          -d '{"ref": "master"}'
+        AUTH_HEADER="Authorization: token ${{ secrets.GITHUB_TOKEN }}"
+          PAYLOAD='{ "event_type": "deploy_service", "client_payload": { "service": "'"$SERVICE_NAME"'", "version": "'"$RELEASE_VERSION"'" }}'
+          curl --request POST "$DEPLOYMENT_NOTIFICATION_URL" --header "$AUTH_HEADER" --header "Content-Type: application/json" --data-raw "$PAYLOAD" -f -i

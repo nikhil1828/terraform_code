@@ -2,8 +2,7 @@ name: Trigger Deploy
 
 on:
   push:
-    branches:
-      - master
+    branches: [feat]
 
 jobs:
   deploy:

@@ -1,8 +1,8 @@
 name: Terraform Execution
 on:
-  # push:
-  #   branches: [feat]
-  # pull_request:
+  push:
+    branches: [feat]
+  pull_request:
 jobs:
   build:
     if: github.repository == 'nikhil1828/terraform_code'

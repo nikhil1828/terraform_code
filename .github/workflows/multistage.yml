@@ -1,7 +1,7 @@
 name: Terraform Execution
 on:
   push:
-    branches: [feature]
+    branches: [feat]
   # pull_request:
 jobs:
   job1:

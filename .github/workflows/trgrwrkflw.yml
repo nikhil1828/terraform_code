@@ -1,0 +1,17 @@
+name: Trigger Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          curl -X POST \
+          -H "Authorization: Bearer ${{secrets.ACCESS_TOKEN}}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/komal0094/terraform_code2/.github/workflows/multistages.yml/dispatches \
+          -d '{"ref": "master"}'

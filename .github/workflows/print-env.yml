@@ -1,7 +1,8 @@
 name: print_environment_variables
 
 on:
-  push: [feat]
+  push: 
+    branch: [feat]
 
 jobs:
   job1: 

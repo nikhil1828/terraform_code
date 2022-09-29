@@ -6,12 +6,12 @@ on:
 
 jobs:
   deploy:
-    env: 
-      SERVICE_NAME: starter-service
+    env:
+      GITHUB_TOKEN: ${{secrets.GITHUB_TOKE}}
       DEPLOYMENT_NOTIFICATION_URL: https://api.github.com/repos/nikhil1828/terraform_code/dispatches
     runs-on: ubuntu-latest
     steps:
       - run: | 
           AUTH_HEADER="Authorization: token ${{ secrets.GITHUB_TOKEN }}"
-          PAYLOAD='{ "event_type": "deploy_service", "client_payload": { "service": "'"$SERVICE_NAME"'", "version": "'"$RELEASE_VERSION"'" }}'
-          curl --request POST "$DEPLOYMENT_NOTIFICATION_URL" --header "$AUTH_HEADER" --header "Content-Type: application/json" --data-raw "$PAYLOAD" -f -i\
+          PAYLOAD='{ "event_type": "deploy_service" }'
+          curl --request POST "$DEPLOYMENT_NOTIFICATION_URL" --header "$AUTH_HEADER" --header "Content-Type: application/json" --data-raw "$PAYLOAD" -f -i

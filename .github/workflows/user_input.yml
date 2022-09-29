@@ -1,0 +1,16 @@
+name: user_input
+
+on: 
+  workflow_dispatch:
+    inputs:
+      name:
+        type: choice
+        description: choose name
+        options:
+        - nikhil
+        - salman
+jobs:
+  print-name:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "S{{ github.event.inputs.name}}"

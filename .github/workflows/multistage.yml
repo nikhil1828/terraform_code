@@ -1,11 +1,8 @@
 name: terraform-execution
 on:
-  # push:
-  #   branches: [feat]
+  push:
+    branches: [master]
   # pull_request:
-  repository_dispatch:
-    types:
-      - deploy_service
 jobs:
   build:
     if: github.repository == 'nikhil1828/terraform_code'

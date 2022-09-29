@@ -9,8 +9,12 @@ on:
         options:
         - nikhil
         - salman
+      message: 
+        required: true
+
 jobs:
   print-name:
     runs-on: ubuntu-latest
     steps:
       - run: echo "S{{ github.event.inputs.name}}"
+      - run: echo "${{ github.event.inputs.message}}"

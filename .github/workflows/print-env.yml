@@ -1,0 +1,35 @@
+name: print_environment_variables
+
+on:
+  # push: 
+  #   branch: [feat]
+  workflow_dispatch:
+    inputs:
+      variable:
+        required: true
+
+jobs:
+  job1: 
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      MY_NAME: nikhil
+    steps:
+    - uses: actions/checkout@v2
+
+    - run: touch env_vars.txt
+
+    - run: env >> env_vars.txt
+
+    - run: echo "S{{ github.event.inputs.variable}}" >> $MY_NAME
+
+    # - run: export MY_NAME=nikhildobriyal
+
+    - run: echo $MY_NAME
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: my-artifact
+        path: env_vars.txt
+    
+############

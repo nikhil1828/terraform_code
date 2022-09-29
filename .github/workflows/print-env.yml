@@ -9,14 +9,17 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      MY_NAME: nikhil
     steps:
     - uses: actions/checkout@v2
-
-    - run: env  
 
     - run: touch env_vars.txt
 
     - run: env >> env_vars.txt
+
+    - run: export MY_NAME=nikhildobriyal
+
+    - run: $MY_NAME
 
     - uses: actions/upload-artifact@v3
       with:

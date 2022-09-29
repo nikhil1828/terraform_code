@@ -5,19 +5,12 @@ on:
     branches: [feat]
 
 jobs:
-  trigger:
-    # env: 
-    #   SERVICE_NAME: starter-service
-    #   DEPLOYMENT_NOTIFICATION_URL: https://api.github.com/repos/nikhil1828/test_repo/dispatches
+  deploy:
+    env:
+      DEPLOYMENT_NOTIFICATION_URL: https://api.github.com/repos/nikhil1828/test_repo/dispatches
     runs-on: ubuntu-latest
     steps:
-      # - run: | 
-      #     AUTH_HEADER="Authorization: token ${{ secrets.GITHUB_TOKEN }}"
-      #     PAYLOAD='{ "event_type": "deploy_service" }'
-      #     curl --request POST "$DEPLOYMENT_NOTIFICATION_URL" --header "$AUTH_HEADER" --header "Content-Type: application/json" --data-raw "$PAYLOAD" -f -i\
-      - run: |
-          curl -X POST \
-          -H "Authorization: token ${{ secrets.GITHUB_TOKEN}}" \
-          -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/nikhil1828/test_repo/.github/workflows/pipeline.yml/dispatches \
-          -d '{"ref": "feat"}'
+      - run: | 
+          AUTH_HEADER="Authorization: token ${{ secrets.GITHUB_TOKEN }}"
+          PAYLOAD='{ "event_type": "deploy_service" }'
+          curl --request POST "$DEPLOYMENT_NOTIFICATION_URL" --header "$AUTH_HEADER" --header "Content-Type: application/json" --data-raw "$PAYLOAD" -f -i

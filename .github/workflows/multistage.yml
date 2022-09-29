@@ -2,7 +2,7 @@ name: terraform-execution
 on:
   # push:
   #   branches: [feat]
-  # pull_request:
+  pull_request:
 #   repository_dispatch:
 #     types:
 #       - deploy_service

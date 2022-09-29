@@ -1,0 +1,10 @@
+name: print_environment_variables
+
+on:
+  push: [feat]
+
+jobs:
+  job1: 
+    runs-on: ubuntu-latest
+    steps:
+    - run: env

@@ -1,5 +1,5 @@
 name: GITHUBACTIONS OUTPUT
-on: workflow_dispatch
+on: repository_dispatch
 jobs:
   job1:
     runs-on: ubuntu-latest

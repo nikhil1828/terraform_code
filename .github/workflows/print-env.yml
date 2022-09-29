@@ -14,14 +14,16 @@ jobs:
     env:
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       MY_NAME: nikhil
+      new: test
     steps:
-    - uses: actions/checkout@v2
+    - run: | 
+      echo "S{{ github.event.inputs.variable}}"
+      echo new= "S{{ github.event.inputs.variable}}"
+      echo "new var = ${new}" >> $MY_NAME
 
     - run: touch env_vars.txt
 
     - run: env >> env_vars.txt
-
-    - run: echo "S{{ github.event.inputs.variable}}" >> $MY_NAME
 
     # - run: export MY_NAME=nikhildobriyal
 

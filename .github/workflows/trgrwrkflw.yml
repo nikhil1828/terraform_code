@@ -8,7 +8,7 @@ jobs:
   deploy:
     env:
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKE}}
-      DEPLOYMENT_NOTIFICATION_URL: https://api.github.com/repos/nikhil1828/test_repo/dispatches
+      DEPLOYMENT_NOTIFICATION_URL: https://api.github.com/repos/nikhil1828/terraform_code/dispatches
     runs-on: ubuntu-latest
     steps:
       - run: | 

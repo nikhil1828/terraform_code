@@ -3,9 +3,9 @@ on:
   # push:
   #   branches: [feat]
   # pull_request:
-  repository_dispatch:
-    types:
-      - deploy_service
+#   repository_dispatch:
+#     types:
+#       - deploy_service
 jobs:
   build:
     if: github.repository == 'nikhil1828/terraform_code'

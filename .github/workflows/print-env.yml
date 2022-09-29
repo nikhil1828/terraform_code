@@ -3,6 +3,10 @@ name: print_environment_variables
 on:
   push: 
     branch: [feat]
+  workflow_dispatch:
+    inputs:
+      variable:
+        required: true
 
 jobs:
   job1: 
@@ -17,7 +21,9 @@ jobs:
 
     - run: env >> env_vars.txt
 
-    - run: export MY_NAME=nikhildobriyal
+    - run: echo "S{{ github.event.inputs.variable}}" >> $MY_NAME
+
+    # - run: export MY_NAME=nikhildobriyal
 
     - run: echo $MY_NAME
 

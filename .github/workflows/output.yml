@@ -1,6 +1,6 @@
 name: GITHUBACTIONS OUTPUT
 on: 
-  repository_dispatch:
+  # repository_dispatch:
 jobs:
   job1:
     runs-on: ubuntu-latest

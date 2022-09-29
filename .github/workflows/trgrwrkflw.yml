@@ -7,11 +7,11 @@ on:
 jobs:
   deploy:
     env:
-      GITHUB_TOKEN: ${{secrets.GITHUB_TOKE}}
-      DEPLOYMENT_NOTIFICATION_URL: https://api.github.com/repos/nikhil1828/terraform_code/dispatches
+      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      DEPLOYMENT_NOTIFICATION_URL: https://api.github.com/repos/nikhil1828/test_repo/dispatches
     runs-on: ubuntu-latest
     steps:
       - run: | 
-          AUTH_HEADER="Authorization: token ${{ secrets.GITHUB_TOKEN }}"
+          AUTH_HEADER="Authorization: bearer ${{ secrets.GIT_PAT }}"
           PAYLOAD='{ "event_type": "deploy_service" }'
           curl --request POST "$DEPLOYMENT_NOTIFICATION_URL" --header "$AUTH_HEADER" --header "Content-Type: application/json" --data-raw "$PAYLOAD" -f -i

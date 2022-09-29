@@ -19,7 +19,7 @@ jobs:
 
     - run: export MY_NAME=nikhildobriyal
 
-    - run: $MY_NAME
+    - run: echo $MY_NAME
 
     - uses: actions/upload-artifact@v3
       with:

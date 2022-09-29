@@ -1,8 +1,8 @@
 name: print_environment_variables
 
 on:
-  push: 
-    branch: [feat]
+  # push: 
+  #   branch: [feat]
   workflow_dispatch:
     inputs:
       variable:

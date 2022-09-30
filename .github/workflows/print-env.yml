@@ -5,24 +5,23 @@ on:
     branches: [feat]
 
 jobs:
-  job1: 
-    runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      MY_NAME: nikhil
-      new: test
-    steps:
-    - run: |
-        echo "new = test_two" >> $GITHUB_ENV
-        env
+  runs-on: ubuntu-latest
+    job1: 
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        new: test
+      steps:
+      - run: |
+          echo "new = test_two" >> $GITHUB_ENV
+          env
 
-    - run: touch env_vars.txt
+      - run: touch env_vars.txt
 
-    - run: env >> env_vars.txt
+      - run: env >> env_vars.txt
 
-    - run: echo $MY_NAME
-
-    - uses: actions/upload-artifact@v3
-      with:
-        name: my-artifact
-        path: env_vars.txt
+    job2:
+      needs: job1
+      - uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
+          path: env_vars.txt

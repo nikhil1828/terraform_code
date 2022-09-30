@@ -16,16 +16,13 @@ jobs:
       MY_NAME: nikhil
       new: test
     steps:
-    - run: | 
-      echo "S{{ github.event.inputs.variable}}"
-      echo new= "S{{ github.event.inputs.variable}}"
-      echo "new var = ${new}" >> $MY_NAME
+    - run: |
+        echo "new=test_two" >> ${{GITHUB_ENV}}
+        env
 
     - run: touch env_vars.txt
 
     - run: env >> env_vars.txt
-
-    # - run: export MY_NAME=nikhildobriyal
 
     - run: echo $MY_NAME
 
@@ -33,5 +30,4 @@ jobs:
       with:
         name: my-artifact
         path: env_vars.txt
-    
 ############

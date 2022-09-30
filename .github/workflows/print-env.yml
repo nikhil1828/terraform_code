@@ -3,10 +3,6 @@ name: print_environment_variables
 on:
   push: 
     branches: [feat]
-  # workflow_dispatch:
-  #   inputs:
-  #     variable:
-  #       required: true
 
 jobs:
   job1: 
@@ -17,7 +13,7 @@ jobs:
       new: test
     steps:
     - run: |
-        echo "new=test_two" >> ${{GITHUB_ENV}}
+        echo "new=${test_two}" >> ${{GITHUB_ENV}}
         env
 
     - run: touch env_vars.txt
@@ -30,4 +26,3 @@ jobs:
       with:
         name: my-artifact
         path: env_vars.txt
-############

@@ -11,6 +11,11 @@ on:
         - salman
       message: 
         required: true
+      use-emoji:
+        type: boolean
+        description: Include  emojis
+      environment:
+        type: environment
 
 jobs:
   print-name:
@@ -18,3 +23,5 @@ jobs:
     steps:
       - run: echo "S{{ github.event.inputs.name}}"
       - run: echo "${{ github.event.inputs.message}}"
+      - run: echo "S{{ github.event.inputs.use-emoji}}"
+      - run: echo "${{ github.event.inputs.environment}}"

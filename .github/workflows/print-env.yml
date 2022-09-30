@@ -14,7 +14,7 @@ jobs:
     - run: |
         echo "new =test_three" >> $GITHUB_ENV
         env
-        echo "${{GIT.new}}"
+        echo "${{env.new}}"
 
     - run: touch env_vars.txt
 

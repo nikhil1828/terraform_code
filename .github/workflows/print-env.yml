@@ -2,7 +2,7 @@ name: print_environment_variables
 
 on:
   push: 
-    branches: [feat]
+    branches: [master]
 
 jobs:
   job1: 

@@ -13,7 +13,6 @@ jobs:
     steps:
     - run: |
         echo "new=test_three" >> $GITHUB_ENV
-        env
         echo "${{env.new}}"
 
     - run: touch env_vars.txt

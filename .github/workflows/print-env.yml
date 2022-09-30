@@ -9,12 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      MY_NAME: nikhil
       new: test
     steps:
     - run: |
-        echo "new=test_three" >> $GITHUB_ENV
+        echo "new =test_three" >> $GITHUB_ENV
         env
+        echo "${{GIT.new}}"
 
     - run: touch env_vars.txt
 

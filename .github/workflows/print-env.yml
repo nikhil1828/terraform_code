@@ -1,12 +1,12 @@
 name: print_environment_variables
 
 on:
-  # push: 
-  #   branch: [feat]
-  workflow_dispatch:
-    inputs:
-      variable:
-        required: true
+  push: 
+    branch: [feat]
+  # workflow_dispatch:
+  #   inputs:
+  #     variable:
+  #       required: true
 
 jobs:
   job1: 

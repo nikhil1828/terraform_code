@@ -12,7 +12,7 @@ jobs:
       new: test
     steps:
     - run: |
-        echo "new =test_three" >> $GITHUB_ENV
+        echo "new=test_three" >> $GITHUB_ENV
         env
         echo "${{env.new}}"
 

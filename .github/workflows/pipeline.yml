@@ -2,7 +2,7 @@ name: create tags
 
 on:
   push:
-    branches: [feat]
+    branches: [master]
   # pull_request:
   # repository_dispatch:
 
@@ -42,7 +42,7 @@ jobs:
       - name: terraform apply
         run: |
           terraform init
-          terraform destroy -auto-approve -input=false
+          terraform apply -auto-approve -input=false
       
       
         

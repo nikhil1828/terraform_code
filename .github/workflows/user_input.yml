@@ -23,5 +23,5 @@ jobs:
     steps:
       - run: echo "S{{ github.event.inputs.name}}"
       - run: echo "${{ github.event.inputs.message}}"
-      - run: echo "S{{ github.event.inputs.use-emoji}}"
+      - run: echo "S{{ github.event.inputs.emoji}}"
       - run: echo "${{ github.event.inputs.environment}}"

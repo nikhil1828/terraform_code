@@ -4,13 +4,13 @@ resource "aws_launch_configuration" "as_conf" {
   instance_type = var.instance_type
   key_name = var.key_name
   security_groups = var.sg
-  # user_data = <<-EOF
-  # #!/bin/bash
-  # sudo su -
-  # apt update -y
-  # apt install nginx -y
-  # systemctl restart nginx.service
-  # EOF
+  user_data = <<-EOF
+  #!/bin/bash
+  sudo su -
+  apt update -y
+  apt install nginx -y
+  systemctl restart nginx.service
+  EOF
   lifecycle {
     create_before_destroy = true
   }

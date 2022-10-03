@@ -1,8 +1,8 @@
 name: GITHUBACTIONS OUTPUT
 on: 
-  push:
-    branches: [master]
-  # pull_request:
+#   push:
+#     branches: [master]
+  workflow_dispatch:
 jobs:
   job1:
     runs-on: ubuntu-latest

@@ -1,10 +1,10 @@
 name: create tags
 
 on:
-  push:
-    branches: [master]
+  # push:
+  #   branches: [master]
   # pull_request:
-  # repository_dispatch:
+  workflow_dispatch:
 
 jobs:
   job1:
@@ -42,7 +42,7 @@ jobs:
       - name: terraform apply
         run: |
           terraform init
-          terraform apply -auto-approve -input=false
+          terraform destroy -auto-approve -input=false
       
       
         

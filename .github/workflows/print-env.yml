@@ -1,8 +1,9 @@
 name: print_environment_variables
 
 on:
-  push: 
-    branches: [master]
+  # push: 
+  #   branches: [master]
+  workflow_dispatch:
 
 jobs:
   job1: 

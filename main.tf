@@ -6,8 +6,13 @@ provider "aws" {
 #   state = "available"
 # }
 
-#testing for versioning second branch#####
-  
+terraform {
+  backend "s3" {
+    bucket = "mybktm001"
+    key    = "terraform/backend/terraform.tfstate"
+    region = "ap-south-1"
+  }
+}
 
 module "nw" {
   source = "./module/nw"

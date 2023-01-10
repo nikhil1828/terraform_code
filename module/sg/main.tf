@@ -1,8 +1,4 @@
 #creating sg
-provider "aws" {
-  region  = "ap-southeast-1"
-}
-
 resource "aws_security_group" "allow_tls" {
   for_each    = var.sg_details
   name        = each.value["name"]
@@ -29,3 +25,4 @@ resource "aws_security_group" "allow_tls" {
     ipv6_cidr_blocks = ["::/0"]
   }
 }
+

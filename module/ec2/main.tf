@@ -1,27 +1,27 @@
 
-# resource "aws_iam_role" "s3-role-ec2" {
-#   name = "s3_fulle_access"
+resource "aws_iam_role" "s3-role-ec2" {
+  name = "s3_fulle_access"
 
-#   # Terraform's "jsonencode" function converts a
-#   # Terraform expression result to valid JSON syntax.
-#   assume_role_policy = jsonencode({
-#     Version = "2012-10-17"
-#     Statement = [
-#       {
-#         Action = "sts:AssumeRole"
-#         Effect = "Allow"
-#         Sid    = ""
-#         Principal = {
-#           Service = "ec2.amazonaws.com"
-#         }
-#       },
-#     ]
-#   })
+  # Terraform's "jsonencode" function converts a
+  # Terraform expression result to valid JSON syntax.
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
+      },
+    ]
+  })
 
-#   tags = {
-#     tag-key = "tag-value"
-#   }
-# }
+  tags = {
+    tag-key = "tag-value"
+  }
+}
 
 # resource "aws_iam_policy" "s3-full-acs-policy" {
 #   name        = "test_policy"
@@ -102,52 +102,33 @@ resource "aws_instance" "web" {
     Name = "${terraform.workspace}_ec2"
   }
 
-#   provisioner "file" {
+# connection {
+#   type = "ssh"
+#   user = "ubuntu"
+#   host = self.public_ip
+#   private_key = file(var.ssh_pvt_key)
+# }
+
+# provisioner "file" {
 #   content = data.template_file.wpconfig.rendered
 #   destination = "/tmp/wp-config.php"
-
-#   connection {
-#     type = "ssh"
-#     user = "ubuntu"
-#     host = self.public_ip
-#     private_key = file(var.ssh_pvt_key)
-#   }
 # }
 
 # provisioner "remote-exec" {
 #   inline = [
 #     "sleep 250 && sudo cp /tmp/wp-config.php /var/www/html/wordpress/wp-config.php"
 #   ]
-#   connection {
-#     type = "ssh"
-#     user = "ubuntu"
-#     host = self.public_ip
-#     private_key = file(var.ssh_pvt_key)
-#   }
 # }
 
 # provisioner "file" {
 #   content = data.template_file.nginx.rendered
 #   destination = "/tmp/default"
-
-#   connection {
-#     type = "ssh"
-#     user = "ubuntu"
-#     host = self.public_ip
-#     private_key = file(var.ssh_pvt_key)
-#   }
 # }
 
 # provisioner "remote-exec" {
 #   inline = [
 #     "sudo cp /tmp/default /etc/nginx/sites-enabled/default"
 #   ]
-#   connection {
-#     type = "ssh"
-#     user = "ubuntu"
-#     host = self.public_ip
-#     private_key = file(var.ssh_pvt_key)
-#   }
 # }
 
 }

@@ -73,7 +73,7 @@ resource "aws_internet_gateway" "igw" {
 }
 
 # creating a igw route table
-  resource "aws_route_table" "pub_rt" {
+resource "aws_route_table" "pub_rt" {
   vpc_id = aws_vpc.test_vpc.id
 
     route {
@@ -85,7 +85,7 @@ resource "aws_internet_gateway" "igw" {
    Name = "${terraform.workspace}_vpc_pub_rt"
    env = "${terraform.workspace}"
    }
- }
+}
 
    resource "aws_route_table" "pvt_rt" {
   vpc_id = aws_vpc.test_vpc.id

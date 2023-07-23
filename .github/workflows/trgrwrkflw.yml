@@ -10,9 +10,12 @@ jobs:
     env:
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       DEPLOYMENT_NOTIFICATION_URL: https://api.github.com/repos/nikhil1828/test_repo/dispatches
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - run: | 
-          AUTH_HEADER="Authorization: bearer ${{ secrets.GIT_PAT }}"
-          PAYLOAD='{ "event_type": "deploy_service" }'
-          curl --request POST "$DEPLOYMENT_NOTIFICATION_URL" --header "$AUTH_HEADER" --header "Content-Type: application/json" --data-raw "$PAYLOAD" -f -i
+          hostname
+          ifconfig
+          cat /proc/os-release
+          #AUTH_HEADER="Authorization: bearer ${{ secrets.GIT_PAT }}"
+          #PAYLOAD='{ "event_type": "deploy_service" }'
+          #curl --request POST "$DEPLOYMENT_NOTIFICATION_URL" --header "$AUTH_HEADER" --header "Content-Type: application/json" --data-raw "$PAYLOAD" -f -i

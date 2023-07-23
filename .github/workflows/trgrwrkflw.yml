@@ -14,7 +14,7 @@ jobs:
     steps:
       - run: | 
           hostname
-          ifconfig
+          touch newfile
           cat /proc/os-release
           #AUTH_HEADER="Authorization: bearer ${{ secrets.GIT_PAT }}"
           #PAYLOAD='{ "event_type": "deploy_service" }'

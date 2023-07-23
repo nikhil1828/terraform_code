@@ -15,7 +15,7 @@ jobs:
       - run: | 
           hostname
           touch newfile
-          cat /proc/os-release
+          cat /etc/os-release
           #AUTH_HEADER="Authorization: bearer ${{ secrets.GIT_PAT }}"
           #PAYLOAD='{ "event_type": "deploy_service" }'
           #curl --request POST "$DEPLOYMENT_NOTIFICATION_URL" --header "$AUTH_HEADER" --header "Content-Type: application/json" --data-raw "$PAYLOAD" -f -i
